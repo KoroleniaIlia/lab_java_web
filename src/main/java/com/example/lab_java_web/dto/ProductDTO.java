@@ -25,4 +25,6 @@ public class ProductDTO {
     @NotEmpty(message = "Category can't be empty")
     @ValidSpaceCategory
     private String categories;
+
+
 }
