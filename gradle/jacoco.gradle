@@ -63,10 +63,10 @@ test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 integrationTest {
-    /*maxParallelForks = 4
+    maxParallelForks = 4
     filter {
         includeTestsMatching '*IT'
-    }*/
+    }
     finalizedBy tasks.jacocoIntegrationTestReport // report is always generated after tests run
 }
 jacocoTestCoverageVerification.dependsOn jacocoTestReport

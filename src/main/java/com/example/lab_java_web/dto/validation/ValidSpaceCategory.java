@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = SpaceCategoryValidation.class)
 public @interface ValidSpaceCategory {
-    String message() default "Invalid Space Category it must be: CosmoMilk, Threads, CosmoCar, CosmoToys, Games, or Other if you didn't find right category";
+    String message() default "Invalid Space Categories it must be: CosmoMilk, Threads, CosmoCar, CosmoToys, Games, or Other if you didn't find right categories";
 
     Class<?>[] groups() default {};
 

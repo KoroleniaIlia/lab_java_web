@@ -62,7 +62,7 @@ public class ProductServiceImplementationTest {
                 .name("Updated Космічне молоко")
                 .categories(CategoryType.COSMOMILK)
                 .description("Updated description")
-                .price(99.99)
+                .price(59.99)
                 .build();
         Product result = productService.updateProduct(newProduct);
         assertNotNull(result);

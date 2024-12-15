@@ -76,11 +76,11 @@ public class ProductControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(productListDto.size())))
                 .andExpect(jsonPath("$[0].name").value(productMapper.toProduct(productListDto.get(0)).getName()))
-                .andExpect(jsonPath("$[0].category").value((productMapper.toProduct(productListDto.get(0)).getCategories().getDisplayName())))
+                .andExpect(jsonPath("$[0].categories").value((productMapper.toProduct(productListDto.get(0)).getCategories().getDisplayName())))
                 .andExpect(jsonPath("$[1].name").value(productMapper.toProduct(productListDto.get(1)).getName()))
-                .andExpect(jsonPath("$[1].category").value(productMapper.toProduct(productListDto.get(1)).getCategories().getDisplayName()))
+                .andExpect(jsonPath("$[1].categories").value(productMapper.toProduct(productListDto.get(1)).getCategories().getDisplayName()))
                 .andExpect(jsonPath("$[2].name").value(productMapper.toProduct(productListDto.get(2)).getName()))
-                .andExpect(jsonPath("$[2].category").value(productMapper.toProduct(productListDto.get(2)).getCategories().getDisplayName()));
+                .andExpect(jsonPath("$[2].categories").value(productMapper.toProduct(productListDto.get(2)).getCategories().getDisplayName()));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ProductControllerIT {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(productDTO.getName()))
-                .andExpect(jsonPath("$.category").value(productDTO.getCategories()))
+                .andExpect(jsonPath("$.categories").value(productDTO.getCategories()))
                 .andExpect(jsonPath("$.price").value(productDTO.getPrice()))
                 .andExpect(jsonPath("$.description").value(productDTO.getDescription()));
     }
@@ -114,7 +114,7 @@ public class ProductControllerIT {
                         .content(objectMapper.writeValueAsString(productDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(productDTO.getName()))
-                .andExpect(jsonPath("$.category").value(productDTO.getCategories()))
+                .andExpect(jsonPath("$.categories").value(productDTO.getCategories()))
                 .andExpect(jsonPath("$.price").value(productDTO.getPrice()))
                 .andExpect(jsonPath("$.description").value(productDTO.getDescription()));
     }
@@ -154,7 +154,7 @@ public class ProductControllerIT {
         ProductDTO updatedDTO = ProductDTO.builder()
                 .name("Updated Космічне молоко")
                 .price(59.99)
-                .categories("CosmoMild")
+                .categories("CosmoMilk")
                 .description("Молоко космічної корови")
                 .build();
         Product updatedProduct = productMapper.toProduct(updatedDTO);
@@ -165,7 +165,7 @@ public class ProductControllerIT {
                         .content(objectMapper.writeValueAsString(updatedDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(updatedDTO.getName()))
-                .andExpect(jsonPath("$.category").value(updatedDTO.getCategories()))
+                .andExpect(jsonPath("$.categories").value(updatedDTO.getCategories()))
                 .andExpect(jsonPath("$.price").value(updatedDTO.getPrice()))
                 .andExpect(jsonPath("$.description").value(updatedDTO.getDescription()));
     }
@@ -217,7 +217,7 @@ public class ProductControllerIT {
                 .name("Космічна машина")
                 .categories("CosmoCar")
                 .description("Чудова річ для подорожів у космосі")
-                .price(2000.99)
+                .price(1999.99)
                 .build());
         return listOfProducts;
     }
@@ -231,13 +231,13 @@ public class ProductControllerIT {
         return Stream.of(
                 Arguments.of(ProductDTO.builder()
                                 .name("Котячі космічні ниткі")
-                                .categories("Wrong category")
+                                .categories("Wrong categories")
                                 .price(850.0)
                                 .description("Котячі космічні ниткі з неправильною категорією")
-                                .build(), "category",
-                        "Invalid Space Category it must be: CosmoMilk, Threads, CosmoCar, CosmoToys, Games, or Other if you didn't find right category"),
+                                .build(), "categories",
+                        "Invalid Space Categories it must be: CosmoMilk, Threads, CosmoCar, CosmoToys, Games, or Other if you didn't find right categories"),
                 Arguments.of(ProductDTO.builder()
-                                .name("Котячі космічні ниткі")
+                                .name("")
                                 .categories("Threads")
                                 .price(850.0)
                                 .description("Котячі космічні ниткі з неправильною категорією")
