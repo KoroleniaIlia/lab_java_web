@@ -2,6 +2,8 @@ package com.example.lab_java_web.web;
 
 import com.example.lab_java_web.domain.Product;
 import com.example.lab_java_web.dto.ProductDTO;
+import com.example.lab_java_web.featuretoggle.FeatureToggles;
+import com.example.lab_java_web.featuretoggle.annotation.FeatureToggle;
 import com.example.lab_java_web.service.ProductService;
 import com.example.lab_java_web.service.mapper.ProductMapper;
 import jakarta.validation.Valid;
@@ -21,16 +23,19 @@ public class ProductController {
         this.productMapper = productMapper;
     }
 
+    @FeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     @GetMapping()
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.ok(productMapper.toProductDtoList(productService.getAllProducts()));
     }
 
+    @FeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productMapper.toProductDto(productService.getProductById(id)));
     }
 
+    @FeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid ProductDTO productDTO) {
         return ResponseEntity.ok(productMapper.toProductDto(productService.createProduct(productMapper.toProduct(productDTO))));

@@ -4,6 +4,9 @@ package com.example.lab_java_web.web;
 import com.example.lab_java_web.common.CategoryType;
 import com.example.lab_java_web.domain.Product;
 import com.example.lab_java_web.dto.ProductDTO;
+import com.example.lab_java_web.featuretoggle.FeatureToggles;
+import com.example.lab_java_web.featuretoggle.annotation.DisabledFeatureToggle;
+import com.example.lab_java_web.featuretoggle.annotation.EnabledFeatureToggle;
 import com.example.lab_java_web.service.ProductService;
 import com.example.lab_java_web.service.exeption.ProductNotFoundException;
 import com.example.lab_java_web.service.mapper.ProductMapper;
@@ -67,7 +70,19 @@ public class ProductControllerIT {
                 .build();
     }
 
+    @DisabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
+    void shouldReturnAllProductsDisabled() throws Exception {
+        mockMvc.perform(get("/api/v1/products")).andExpect(status().isNotFound());
+    }
+
     @Test
+    @DisabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
+    void shouldReturnProductByIdDisabled() throws Exception {
+        mockMvc.perform(get("/api/v1/products/" + PRODUCT_ID)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @EnabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldReturnAllProducts() throws Exception {
         when(productService.getAllProducts()).thenReturn(buildProductList());
         mockMvc.perform(get("/api/v1/products")
@@ -84,6 +99,7 @@ public class ProductControllerIT {
     }
 
     @Test
+    @EnabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldReturnProductById() throws Exception {
         when(productService.getProductById(PRODUCT_ID)).thenReturn(mockProduct);
         mockMvc.perform(get("/api/v1/products/{id}", PRODUCT_ID)
@@ -97,6 +113,7 @@ public class ProductControllerIT {
     }
 
     @Test
+    @EnabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldThrowProductNotFoundException() throws Exception {
         when(productService.getProductById(any())).thenThrow(ProductNotFoundException.class);
         mockMvc.perform(get("/api/v1/products/{id}", 10000L)
@@ -106,6 +123,7 @@ public class ProductControllerIT {
     }
 
     @Test
+    @EnabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldCreateProduct() throws Exception {
         when(productService.createProduct(any(Product.class))).thenReturn(mockProduct);
         mockMvc.perform(post("/api/v1/products")
@@ -121,6 +139,7 @@ public class ProductControllerIT {
 
     @ParameterizedTest
     @MethodSource("invalidProductDTOs")
+    @EnabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldThrowValidationErrorCreateProduct(ProductDTO productDTO, String fieldName, String message) throws Exception {
         mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
