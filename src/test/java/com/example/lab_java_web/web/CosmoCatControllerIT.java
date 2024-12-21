@@ -25,13 +25,13 @@ public class CosmoCatControllerIT {
 
     @Test
     @DisabledFeatureToggle(FeatureToggles.COSMO_CATS)
-    void shouldReturnAllCosmicCatsDisabled() throws Exception {
+    void shouldReturnAllCosmoCatsDisabled() throws Exception {
         mockMvc.perform(get("/api/v1/cosmo-cats")).andExpect(status().isNotFound());
     }
 
     @Test
     @EnabledFeatureToggle(FeatureToggles.COSMO_CATS)
-    void shouldReturnAllCosmicCats() throws Exception {
+    void shouldReturnAllCosmoCats() throws Exception {
         mockMvc.perform(get("/api/v1/cosmo-cats")).andExpect(status().isOk());
     }
 }

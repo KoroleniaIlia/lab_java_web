@@ -3,7 +3,6 @@ package com.example.lab_java_web.featuretoggle;
 import com.example.lab_java_web.featuretoggle.annotation.DisabledFeatureToggle;
 import com.example.lab_java_web.featuretoggle.annotation.EnabledFeatureToggle;
 import com.example.lab_java_web.featuretoggle.service.FeatureToggleService;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;

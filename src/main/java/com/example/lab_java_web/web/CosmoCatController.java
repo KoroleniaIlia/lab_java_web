@@ -22,10 +22,9 @@ public class CosmoCatController {
         this.cosmoCatService = cosmicCatService;
         this.cosmoCatMapper = cosmoCatMapper;
     }
-
     @FeatureToggle(FeatureToggles.COSMO_CATS)
     @GetMapping
-    public ResponseEntity<List<CosmoCatsDTO>> getCosmicCats() {
-        return ResponseEntity.ok(cosmoCatMapper.toCosmoCatsDTO(cosmoCatService.getAllCosmicCats()));
+    public ResponseEntity<List<CosmoCatsDTO>> getCosmoCats() {
+        return ResponseEntity.ok(cosmoCatMapper.toCosmoCatsDTO(cosmoCatService.getAllCosmoCats()));
     }
 }

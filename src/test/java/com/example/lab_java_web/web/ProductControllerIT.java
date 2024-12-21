@@ -4,6 +4,7 @@ package com.example.lab_java_web.web;
 import com.example.lab_java_web.common.CategoryType;
 import com.example.lab_java_web.domain.Product;
 import com.example.lab_java_web.dto.ProductDTO;
+import com.example.lab_java_web.featuretoggle.FeatureToggleExtension;
 import com.example.lab_java_web.featuretoggle.FeatureToggles;
 import com.example.lab_java_web.featuretoggle.annotation.DisabledFeatureToggle;
 import com.example.lab_java_web.featuretoggle.annotation.EnabledFeatureToggle;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,9 +37,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DisplayName("Order Controller IT")
+@ExtendWith(FeatureToggleExtension.class)
 public class ProductControllerIT {
     private ProductDTO productDTO;
     private Product mockProduct;
@@ -70,6 +74,7 @@ public class ProductControllerIT {
                 .build();
     }
 
+    @Test
     @DisabledFeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     void shouldReturnAllProductsDisabled() throws Exception {
         mockMvc.perform(get("/api/v1/products")).andExpect(status().isNotFound());

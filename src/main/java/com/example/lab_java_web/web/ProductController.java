@@ -35,7 +35,6 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.toProductDto(productService.getProductById(id)));
     }
 
-    @FeatureToggle(FeatureToggles.KITTY_PRODUCTS)
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid ProductDTO productDTO) {
         return ResponseEntity.ok(productMapper.toProductDto(productService.createProduct(productMapper.toProduct(productDTO))));

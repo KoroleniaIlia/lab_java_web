@@ -9,14 +9,14 @@ import java.util.List;
 
 @Service
 public class CosmoCatServiceImplementation implements CosmoCatService {
-    private final List<CosmoCats> cosmoCats = createCosmicCats();
+    private final List<CosmoCats> cosmoCats = createCosmoCats();
 
     @Override
-    public List<CosmoCats> getAllCosmicCats() {
+    public List<CosmoCats> getAllCosmoCats() {
         return cosmoCats;
     }
 
-    private List<CosmoCats> createCosmicCats() {
+    private List<CosmoCats> createCosmoCats() {
         return List.of(
                 CosmoCats.builder()
                         .id(1L)
