@@ -1,11 +1,19 @@
 package com.example.lab_java_web.service.implementation;
 
 
-import com.example.lab_java_web.domain.CosmoCats;
+import com.example.lab_java_web.domain.CosmoCatDetails;
+import com.example.lab_java_web.repository.CosmoCatRepository;
+import com.example.lab_java_web.repository.entity.CosmoCatEntity;
+import com.example.lab_java_web.repository.mapper.CosmoCatRepositoryMapper;
 import com.example.lab_java_web.service.CosmoCatService;
+import com.example.lab_java_web.service.exeption.CosmoCatNofFoundException;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CosmoCatServiceImplementation implements CosmoCatService {

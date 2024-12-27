@@ -1,6 +1,8 @@
 package com.example.lab_java_web.web;
 
 import com.example.lab_java_web.featuretoggle.exception.FeatureToggleNotEnabledException;
+import com.example.lab_java_web.service.exeption.CosmoCatNofFoundException;
+import com.example.lab_java_web.service.exeption.OrderNotFoundException;
 import com.example.lab_java_web.service.exeption.ParamsViolationException;
 import com.example.lab_java_web.service.exeption.ProductNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +37,22 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
         problemDetail.setTitle("Product Not Found");
         return ResponseEntity.status(NOT_FOUND).body(problemDetail);
     }
-
+    @ExceptionHandler(CosmoCatNofFoundException.class)
+    public ResponseEntity<ProblemDetail> handleCosmoCatNofFoundException(CosmoCatNofFoundException ex) {
+        log.info("Cosmo Cat Not Found exception raised");
+        ProblemDetail problemDetail = forStatusAndDetail(NOT_FOUND, ex.getMessage());
+        problemDetail.setType(create("cosmo-cat-not-found"));
+        problemDetail.setTitle("Cosmo Cat Not Found");
+        return ResponseEntity.status(NOT_FOUND).body(problemDetail);
+    }
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleOrderNotFoundException(OrderNotFoundException ex) {
+        log.info("Order Not Found exception raised");
+        ProblemDetail problemDetail = forStatusAndDetail(NOT_FOUND, ex.getMessage());
+        problemDetail.setType(create("order-not-found"));
+        problemDetail.setTitle("Order Not Found");
+        return ResponseEntity.status(NOT_FOUND).body(problemDetail);
+    }
     @ExceptionHandler(FeatureToggleNotEnabledException.class)
     ProblemDetail handleFeatureToggleNotEnabledException(FeatureToggleNotEnabledException ex) {
         log.info("Feature is not enabled");

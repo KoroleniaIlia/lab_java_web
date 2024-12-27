@@ -1,19 +1,22 @@
 package com.example.lab_java_web.dto.validation;
 
-import com.example.lab_java_web.common.CategoryType;
-import com.example.lab_java_web.service.mapper.ProductMapper;
+import com.example.lab_java_web.common.Categories;
+import com.example.lab_java_web.service.mapper.ProductServiceMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
 import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 @Component
 public class SpaceCategoryValidation implements ConstraintValidator<ValidSpaceCategory, String> {
-    private final ProductMapper productMapper;
+    private final ProductServiceMapper productServiceMapper;
+
     @Override
-    public boolean isValid(String category, ConstraintValidatorContext constraintValidatorContext) {
-        return Stream.of(CategoryType.values())
-                .anyMatch(type -> productMapper.toCategoryString(type).equalsIgnoreCase(category));
+    public boolean isValid(String categories, ConstraintValidatorContext constraintValidatorContext) {
+        return Stream.of(Categories.values())
+                .anyMatch(type -> productServiceMapper.toCategoryString(type).equalsIgnoreCase(categories));
     }
 }

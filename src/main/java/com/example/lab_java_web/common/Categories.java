@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum CategoryType {
+public enum Categories {
 
     COSMOMILK("CosmoMilk"),
     THREADS("Threads"),

@@ -1,98 +1,71 @@
 package com.example.lab_java_web.service.implementation;
 
 
-import com.example.lab_java_web.common.CategoryType;
-import com.example.lab_java_web.domain.Product;
+import com.example.lab_java_web.domain.ProductDetails;
+import com.example.lab_java_web.repository.ProductRepository;
+import com.example.lab_java_web.repository.entity.ProductEntity;
+import com.example.lab_java_web.repository.mapper.ProductRepositoryMapper;
 import com.example.lab_java_web.service.ProductService;
 import com.example.lab_java_web.service.exeption.ProductNotFoundException;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImplementation implements ProductService {
-    private final List<Product> listOfProducts = createProductList();
+    private final ProductRepositoryMapper productRepositoryMapper;
+    private final ProductRepository productRepository;
 
-    @Override
-    public List<Product> getAllProducts() {
-        return listOfProducts;
+    public ProductServiceImplementation(ProductRepositoryMapper productRepositoryMapper, ProductRepository productRepository) {
+        this.productRepositoryMapper = productRepositoryMapper;
+        this.productRepository = productRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductDetails> getAllProducts() {
+        return productRepositoryMapper.toProductDetails(productRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public ProductDetails getProductByProductId(UUID productId) {
+        return productRepositoryMapper.toProductDetails(productRepository.findByNaturalId(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId)));
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return listOfProducts.stream()
-                .filter(product -> product.getId().equals(id)).
-                findFirst()
-                .orElseThrow(() -> new ProductNotFoundException(id));
+    @Transactional(propagation = Propagation.NESTED)
+    public ProductDetails saveProduct(ProductDetails productId) {
+        return productRepositoryMapper.toProductDetails(
+                productRepository.save(productRepositoryMapper.toProductEntity(productId)));
     }
 
     @Override
-    public Product createProduct(Product product) {
-        product.setId((long) listOfProducts.size() + 1);
-        listOfProducts.add(product);
-        return product;
+    @Transactional(propagation = Propagation.NESTED)
+    public ProductDetails saveProduct(UUID productId, ProductDetails productDetails) {
+        ProductEntity oldProduct = productRepository.findByNaturalId(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+        oldProduct.setName(productDetails.getName());
+        oldProduct.setDescription(productDetails.getDescription());
+        oldProduct.setPrice(productDetails.getPrice());
+        oldProduct.setCategories(productRepositoryMapper.categoryToList(productDetails.getCategories()));
+        productRepository.save(oldProduct);
+        return productRepositoryMapper.toProductDetails(oldProduct);
     }
 
     @Override
-    public Product updateProduct(Product product) {
-        Product oldProduct = listOfProducts.stream()
-                .filter(updatedProduct -> updatedProduct.getId().equals(product.getId())).findFirst().orElseThrow(() -> new ProductNotFoundException(product.getId()));
-        oldProduct.setCategories(product.getCategories());
-        oldProduct.setName(product.getName());
-        oldProduct.setDescription(product.getDescription());
-        oldProduct.setPrice(product.getPrice());
-        return oldProduct;
-    }
-
-    @Override
-    public void deleteProductById(Long id) {
-        listOfProducts.remove(getProductById(id));
+    @Transactional
+    public void deleteProduct(UUID productId) {
+        productRepository.findByNaturalId(productId);
+        productRepository.deleteByNaturalId(productId);
     }
 
     @Override
     public void cleanProductList() {
-        listOfProducts.clear();
+
     }
 
-    private List<Product> createProductList() {
-        List<Product> listOfProducts = new ArrayList<>();
-        listOfProducts.add(Product.builder()
-                .id(1L)
-                .name("Космічне молоко")
-                .categories(CategoryType.COSMOMILK)
-                .description("Молоко космічної корови")
-                .build());
-        listOfProducts.add(Product.builder()
-                .id(2L)
-                .name("Котячі космічні ниткі")
-                .categories(CategoryType.THREADS)
-                .description("Спеціальні ниткі, чудове заспокійлеве для космічних котів")
-                .build());
-        listOfProducts.add(Product.builder()
-                .id(3L)
-                .name("Космічна машина")
-                .categories(CategoryType.COSMOCAR)
-                .description("Чудова річ для подорожів у космосі")
-                .build());
-        listOfProducts.add(Product.builder()
-                .id(4L)
-                .name("Космічні іграшки")
-                .categories(CategoryType.COSMOTOYS)
-                .description("Чудові іграшкі для космічних котиків")
-                .build());
-        listOfProducts.add(Product.builder()
-                .id(5L)
-                .name("Космічні відеоігри")
-                .categories(CategoryType.GAMES)
-                .description("Цікаві віртуальні відеоігри для скорочення часу довгих космічних подорожей")
-                .build());
-        listOfProducts.add(Product.builder()
-                .id(6L)
-                .name("Космічне каміння")
-                .categories(CategoryType.OTHER)
-                .description("Літає у космосі")
-                .build());
-        return listOfProducts;
-    }
 }
