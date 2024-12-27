@@ -1,7 +1,6 @@
 package com.example.lab_java_web.util;
 
 
-
 import com.example.lab_java_web.service.exeption.ParamsViolationException;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.ProblemDetail;

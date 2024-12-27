@@ -1,18 +1,20 @@
 package com.example.lab_java_web.service;
 
-import com.example.lab_java_web.domain.Product;
+import com.example.lab_java_web.domain.ProductDetails;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductService {
-    List<Product> getAllProducts();
+    List<ProductDetails> getAllProducts();
 
-    Product getProductById(Long id);
 
-    Product createProduct(Product product);
+    ProductDetails getProductByProductId(UUID productId);
 
-    Product updateProduct(Product product);
+    ProductDetails saveProduct(ProductDetails productId);
 
-    void deleteProductById(Long id);
+    ProductDetails saveProduct(UUID productId, ProductDetails productDetails);
+
+    void deleteProduct(UUID productId);
     void cleanProductList();
 }
