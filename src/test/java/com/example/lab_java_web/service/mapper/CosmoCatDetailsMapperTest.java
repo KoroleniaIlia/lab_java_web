@@ -22,13 +22,13 @@ public class CosmoCatDetailsMapperTest {
     void shouldMapCosmoCatToCosmoCatDto() {
         CosmoCatDetails cosmoCatDetails = CosmoCatDetails.builder()
                 .id(1L)
-                .cosmoCatId(UUID.fromString("FirstCatTest"))
+                .catCosmoName("TestCat1")
                 .realName("RealTest Cat")
                 .catEmail("test@catmail.com")
                 .build();
         CosmoCatsDTO cosmoCatDTO = cosmoCatServiceMapper.toCosmoCatDTO(cosmoCatDetails);
         assertNotNull(cosmoCatDTO);
-        assertEquals(cosmoCatDTO.getCatCosmoName(), cosmoCatDetails.getCosmoCatId());
+        assertEquals(cosmoCatDTO.getCatCosmoName(), cosmoCatDetails.getCatCosmoName());
         assertEquals(cosmoCatDTO.getRealName(), cosmoCatDetails.getRealName());
         assertEquals(cosmoCatDTO.getCatEmail(), cosmoCatDetails.getCatEmail());
     }
@@ -36,13 +36,13 @@ public class CosmoCatDetailsMapperTest {
     @Test
     void shouldMapCosmoCatDTOToCosmoCat() {
         CosmoCatsDTO cosmoCatDTO = CosmoCatsDTO.builder()
-                .catCosmoName("FirstCatTest")
+                .catCosmoName("TestCat1")
                 .realName("RealTest Cat")
                 .catEmail("test@catmail.com")
                 .build();
         CosmoCatDetails cosmoCatDetails = cosmoCatServiceMapper.toCosmoCatDetails(cosmoCatDTO);
         assertNotNull(cosmoCatDetails);
-        assertEquals(cosmoCatDetails.getCosmoCatId(), cosmoCatDTO.getCatCosmoName());
+        assertEquals(cosmoCatDetails.getCatCosmoName(), cosmoCatDTO.getCatCosmoName());
         assertEquals(cosmoCatDetails.getRealName(), cosmoCatDTO.getRealName());
         assertEquals(cosmoCatDetails.getCatEmail(), cosmoCatDTO.getCatEmail());
     }

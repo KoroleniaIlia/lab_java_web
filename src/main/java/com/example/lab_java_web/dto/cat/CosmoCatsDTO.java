@@ -15,16 +15,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CosmoCatsDTO {
     private UUID cosmoCatId;
-    @Schema(description = "Name of the cosmocat")
+
+    @Schema(description = "Name of the cosmo cat")
     @NotBlank(message = "Cat cosmo name is mandatory")
-    @Size(max = 25)
     private String catCosmoName;
     @Schema(description = "Real name of the cat")
-    @Size(max = 64)
     @NotBlank(message = "Cat's real name is mandatory")
     private String realName;
     @Schema(description = "Email of the cat")
-    @NotBlank(message = "Catemail is mandatory")
+    @NotBlank(message = "Cat's email is mandatory")
     @Email(message = "Cat's email must be valid")
     private String catEmail;
     private List<UUID> orders;

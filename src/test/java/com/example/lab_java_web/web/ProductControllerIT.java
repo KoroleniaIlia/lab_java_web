@@ -122,7 +122,7 @@ public class ProductControllerIT extends AbstractIt {
                 .name("Test")
                 .description("Test")
                 .price(199.99)
-                .categories("Accessories")
+                .categories("CosmoToys")
                 .build();
         mockMvc.perform(put("/api/v1/products/{productId}", productEntity.getProductId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -154,7 +154,7 @@ public class ProductControllerIT extends AbstractIt {
                 .name("Test")
                 .description("Test")
                 .price(259.99)
-                .categories("Accessories")
+                .categories("CosmoToys")
                 .build();
         System.out.println(objectMapper.writeValueAsString(productDTO));
         mockMvc.perform(put("/api/v1/products/{productId}", UUID.randomUUID().toString())

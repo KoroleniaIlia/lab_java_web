@@ -26,7 +26,7 @@ public class CosmoCatController {
 
     @FeatureToggle(FeatureToggles.COSMO_CATS)
     @GetMapping
-    public ResponseEntity<List<CosmoCatsDTO>> getCosmicCats() {
+    public ResponseEntity<List<CosmoCatsDTO>> getCosmoCats() {
         return ResponseEntity.ok(cosmoCatServiceMapper.toCosmoCatDTO(cosmoCatService.getAllCosmoCats()));
     }
     @FeatureToggle(FeatureToggles.COSMO_CATS)
@@ -40,12 +40,12 @@ public class CosmoCatController {
         return ResponseEntity.ok(cosmoCatServiceMapper.toCosmoCatDTO(cosmoCatService
                 .saveCosmoCat(cosmoCatServiceMapper.toCosmoCatDetails(cosmoCatDto))));
     }
-    @PutMapping("/{cosmuCatId}")
+    @PutMapping("/{cosmoCatId}")
     public ResponseEntity<CosmoCatsDTO> updateCosmoCat(@PathVariable UUID cosmoCatId, @RequestBody @Valid CosmoCatsDTO cosmoCatDto) {
         return ResponseEntity.ok(cosmoCatServiceMapper.toCosmoCatDTO(cosmoCatService
                 .saveCosmoCat(cosmoCatId, cosmoCatServiceMapper.toCosmoCatDetails(cosmoCatDto))));
     }
-    @DeleteMapping("/{cosmuCatId}")
+    @DeleteMapping("/{cosmoCatId}")
     public ResponseEntity<Void> deleteCosmoCat(@PathVariable UUID cosmoCatId) {
         cosmoCatService.deleteCosmoCat(cosmoCatId);
         return ResponseEntity.noContent().build();

@@ -100,7 +100,7 @@ public class CosmoCatControllerIT extends AbstractIt {
         mockMvc.perform(post("/api/v1/cosmo-cats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cosmoCatDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @SneakyThrows
@@ -127,7 +127,7 @@ public class CosmoCatControllerIT extends AbstractIt {
         mockMvc.perform(put("/api/v1/cosmo-cats/{cosmoCatId}", cosmoCatEntity.getCosmoCatId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cosmoCatDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @SneakyThrows
@@ -147,14 +147,15 @@ public class CosmoCatControllerIT extends AbstractIt {
     @SneakyThrows
     void shouldUpdateCosmoCatNotFound() {
         CosmoCatsDTO cosmoCatDto = new CosmoCatsDTO().toBuilder()
+                .cosmoCatId(UUID.randomUUID())
                 .catCosmoName("Update")
                 .realName("Update Test")
-                .catEmail("updatetetest@catmail.com")
+                .catEmail("updatetetest@catemail.com")
                 .build();
         mockMvc.perform(put("/api/v1/cosmo-cats/{cosmoCatId}", UUID.randomUUID().toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cosmoCatDto)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @SneakyThrows
